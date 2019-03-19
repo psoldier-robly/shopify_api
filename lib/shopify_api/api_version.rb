@@ -10,18 +10,25 @@ module ShopifyAPI
       def construct_api_path(path)
         "#{API_PREFIX}#{path}"
       end
+
+      def construct_graphql_path
+        '/admin/api/graphql.json'
+      end
     end
 
     class Unstable < ApiVersion
-      API_PREFIX = '/admin/api/'.freeze
+      API_PREFIX = '/admin/api/unstable/'.freeze
 
       def initialize
         @version_name = "unstable"
-        @url = "#{API_PREFIX}unstable/"
       end
 
       def construct_api_path(path)
-        "#{@url}#{path}"
+        "#{API_PREFIX}#{path}"
+      end
+
+      def construct_graphql_path
+        construct_api_path('graphql.json')
       end
     end
 
@@ -42,6 +49,10 @@ module ShopifyAPI
     end
 
     def construct_api_path(path)
+      raise NotImplementedError
+    end
+
+    def construct_graphql_path
       raise NotImplementedError
     end
   end
