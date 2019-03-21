@@ -131,8 +131,8 @@ class BaseTest < Test::Unit::TestCase
   end
 
   test "using a different version changes the url" do
-    no_version = ShopifyAPI::Session.new('shop1.myshopify.com', 'token1', ShopifyAPI::ApiVersion.no_version)
-    unstable_version = ShopifyAPI::Session.new('shop2.myshopify.com', 'token2', ShopifyAPI::ApiVersion.unstable)
+    no_version = ShopifyAPI::Session.new('shop1.myshopify.com', 'token1', :no_version)
+    unstable_version = ShopifyAPI::Session.new('shop2.myshopify.com', 'token2', :unstable)
 
     fake "shop", url: "https://shop1.myshopify.com/admin/shop.json", method: :get, status: 201, body: '{ "shop": { "id": 1 } }'
     fake "shop", url: "https://shop2.myshopify.com/admin/api/unstable/shop.json", method: :get, status: 201, body: '{ "shop": { "id": 2 } }'

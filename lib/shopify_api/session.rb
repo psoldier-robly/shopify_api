@@ -18,7 +18,7 @@ module ShopifyAPI
         params.each { |k,value| public_send("#{k}=", value) }
       end
 
-      def temp(domain, token, api_version = ApiVersion.no_version, &block)
+      def temp(domain, token, api_version = :no_version, &block)
         session = new(domain, token, api_version)
         original_site = ShopifyAPI::Base.site.to_s
         original_token = ShopifyAPI::Base.headers['X-Shopify-Access-Token']
@@ -66,9 +66,9 @@ module ShopifyAPI
       end
     end
 
-    def initialize(url, token = nil, api_verison = ApiVersion.no_version, extra = {})
+    def initialize(url, token = nil, api_version = :no_version, extra = {})
       self.url = self.class.prepare_url(url)
-      self.api_version = api_verison
+      self.api_version = api_version
       self.token = token
       self.extra = extra
     end
@@ -106,6 +106,10 @@ module ShopifyAPI
 
     def site
       "https://#{url}"
+    end
+
+    def api_version=(version)
+      @api_version = ApiVersion.coerce_to_version(version)
     end
 
     def valid?
