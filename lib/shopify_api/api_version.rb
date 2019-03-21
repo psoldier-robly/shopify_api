@@ -75,6 +75,14 @@ module ShopifyAPI
       version_name.hash
     end
 
+    def ==(other)
+      other.class == self.class && to_s == other.to_s
+    end
+
+    def hash
+      version_name.hash
+    end
+
     def construct_api_path(path)
       raise NotImplementedError
     end
