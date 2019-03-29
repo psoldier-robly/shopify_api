@@ -103,6 +103,14 @@ class SessionTest < Test::Unit::TestCase
     assert_equal "https://localhost.myshopify.com/admin/oauth/authorize?client_id=My_test_key&scope=", permission_url
   end
 
+  test "create_permission_url returns correct url with state" do
+    ShopifyAPI::Session.setup(:api_key => "My_test_key", :secret => "My test secret")
+    session = ShopifyAPI::Session.new('http://localhost.myshopify.com')
+    scope = []
+    permission_url = session.create_permission_url(scope, nil, state: "My nonce")
+    assert_equal "https://localhost.myshopify.com/admin/oauth/authorize?client_id=My_test_key&scope=&state=My%20nonce", permission_url
+  end
+
   test "raise exception if code invalid in request token" do
     ShopifyAPI::Session.setup(:api_key => "My test key", :secret => "My test secret")
     session = ShopifyAPI::Session.new('http://localhost.myshopify.com')
